@@ -2,7 +2,7 @@ import sunny from '../assets/images/sunny.png'
 import cloudy from '../assets/images/cloudy.png'
 import rainy from '../assets/images/rainy.png'
 import snowy from '../assets/images/snowy.png'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 
 
@@ -11,15 +11,28 @@ const WeatherApp = () => {
     const[data,setData]=useState({})
     const[city,setCity]=useState('')
     const api_key='e3cbfb4d5977e0836d2d9620549fb036'
+    useEffect(()=>{
+        const defaultWeather=async()=>{
+            const defaultCity='kochi'
+            const url =`https://api.openweathermap.org/data/2.5/weather?q=${defaultCity}&units=Metric&appid=${api_key}`
+            const res = await fetch(url)
+            const defaultData= await res.json()
+            setData(defaultData)
+        }
+        defaultWeather()
+    },[])
+    
     const handleInputChnage =(e)=>{
         setCity(e.target.value)
     }
     const search=async()=>{
+        if(city.trim()!==''){
         const url=`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=Metric&appid=${api_key}`
         const res= await fetch(url)
         const searchData=await res.json()
         console.log(searchData)
         setData(searchData)
+        }
     }
 
     const keyPress=(e)=>{
@@ -53,12 +66,12 @@ const WeatherApp = () => {
                 <div className="humidity">
                     <div className="data-name">Humidity</div>
                     <i className="fa-solid fa-droplet"></i>
-                    <div className="data">35%</div>
+                    <div className="data">{data.main ? data.main.humidity : null}%</div>
                 </div>
                 <div className="wind">
                 <div className="data-name">wind</div>
                     <i className="fa-solid fa-wind"></i>
-                    <div className="data">3kmph</div>
+                    <div className="data">{data.wind ? data.wind.speed : null }</div>
 
                 </div>
             </div>
