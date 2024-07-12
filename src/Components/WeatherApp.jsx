@@ -40,8 +40,36 @@ const WeatherApp = () => {
             search()
         }
     }
+
+    const bgImages={
+        Clear:sunny,
+        Clouds:cloudy,
+        Rain:rainy,
+        Snow:snowy,
+        Haze:cloudy,
+        Mist:cloudy,
+        Thunderstorm:rainy,
+
+    }
+
+    const bgImage=data.weather? bgImages[data.weather[0].main]:null
+
+    const backgroundImages={
+        Clear: 'linear-gradient(to right, #f3b07c, #fcd283)',
+        Clouds: 'linear-gradient(to right, #57d6d4, #71eeec)',
+        Rain: 'linear-gradient(to right, #5bc8fb, #80eaff)',
+        Snow: 'linear-gradient(to right, #aff2ff, #fff)',
+        Haze: 'linear-gradient(to right, #57d6d4, #71eeec)',
+        Mist: 'linear-gradient(to right, #57d6d4, #71eeec)',
+        Thunderstorm:'linear-gradient(to right, #57d6d4, #71eeec)'
+    }
+
+    const backgroundImage = data.weather
+    ? backgroundImages[data.weather[0].main]
+    : 'linear-gradient(to right, #f3b07c, #fcd283)'
+
   return (
-    <div className='container'>
+    <div className='container' style={{ backgroundImage }}>
         <div className="weather-app">
             <div className="search">
                 <div className="search-top">
@@ -54,9 +82,9 @@ const WeatherApp = () => {
                 </div>
             </div>
             <div className="weather">
-                <img src={sunny} alt="sunny" />
+                <img src={bgImage} alt="sunny" />
                 <div className="weather-type">{data.weather ? data.weather[0].main : null }</div>
-                <div className="temp">{data.main ? `${Math.floor(data.main.temp)}C` : null}°</div>
+                <div className="temp">{data.main ? `${Math.floor(data.main.temp)}` : null}°C</div>
 
             </div>
             <div className="weather-date">
