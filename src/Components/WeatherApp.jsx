@@ -5,13 +5,27 @@ import snowy from '../assets/images/snowy.png'
 import { useState } from 'react'
 
 
+
 const WeatherApp = () => {
+
     const[data,setData]=useState({})
+    const[city,setCity]=useState('')
     const api_key='e3cbfb4d5977e0836d2d9620549fb036'
-    const city='London'
+    const handleInputChnage =(e)=>{
+        setCity(e.target.value)
+    }
     const search=async()=>{
-        const url=`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`
+        const url=`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=Metric&appid=${api_key}`
         const res= await fetch(url)
+        const searchData=await res.json()
+        console.log(searchData)
+        setData(searchData)
+    }
+
+    const keyPress=(e)=>{
+        if(e.key=='Enter'){
+            search()
+        }
     }
   return (
     <div className='container'>
@@ -19,17 +33,17 @@ const WeatherApp = () => {
             <div className="search">
                 <div className="search-top">
                     <i className="fa-solid fa-location-dot"></i>
-                    <div className="location">Kochi</div>
+                    <div className="location">{data.name}</div>
                 </div>
                 <div className="search-bar">
-                    <input type="text" placeholder="Enter Location" />
-                    <i className="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Enter Location" value={city} onChange={handleInputChnage} onKeyDown={keyPress} />
+                    <i className="fa-solid fa-magnifying-glass" onClick={search}></i>
                 </div>
             </div>
             <div className="weather">
                 <img src={sunny} alt="sunny" />
-                <div className="weather-type">Clear</div>
-                <div className="temp">38°C</div>
+                <div className="weather-type">{data.weather ? data.weather[0].main : null }</div>
+                <div className="temp">{data.main ? `${Math.floor(data.main.temp)}C` : null}°</div>
 
             </div>
             <div className="weather-date">
