@@ -2,6 +2,7 @@ import sunny from '../assets/images/sunny.png'
 import cloudy from '../assets/images/cloudy.png'
 import rainy from '../assets/images/rainy.png'
 import snowy from '../assets/images/snowy.png'
+import speed from '../assets/images/speed.jpg'
 import { useState, useEffect } from 'react'
 
 
@@ -30,8 +31,12 @@ const WeatherApp = () => {
         const url=`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=Metric&appid=${api_key}`
         const res= await fetch(url)
         const searchData=await res.json()
-        console.log(searchData)
-        setData(searchData)
+        if(searchData.cod!=200){
+            setData({notFound:true})
+        }else{
+            console.log(searchData)
+            setData(searchData)
+        }
         }
     }
 
@@ -51,7 +56,7 @@ const WeatherApp = () => {
         Thunderstorm:rainy,
 
     }
-
+    const errImg=speed
     const bgImage=data.weather? bgImages[data.weather[0].main]:null
 
     const backgroundImages={
@@ -66,11 +71,36 @@ const WeatherApp = () => {
 
     const backgroundImage = data.weather
     ? backgroundImages[data.weather[0].main]
-    : 'linear-gradient(to right, #f3b07c, #fcd283)'
+    : 'linear-gradient(to right, #57d6d4, #71eeec)'
+
+
+    const presentDay = new Date()
+    const daysOfWeek=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
+    const months=[
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sept",
+        "Oct",
+        "Nov",
+        "Dec",
+    ]
+    
+    const dayOfWeek=daysOfWeek[presentDay.getDay()]
+    const presentMonth=months[presentDay.getMonth()]
+    const currentDay=presentDay.getDate();
+
+    const dateUSee=`${dayOfWeek},${presentMonth} ${currentDay}`
+
 
   return (
     <div className='container' style={{ backgroundImage }}>
-        <div className="weather-app">
+        <div className="weather-app" style={{backgroundImage:backgroundImage && backgroundImage.replace ? backgroundImage.replace("to right","to top"): null}}>
             <div className="search">
                 <div className="search-top">
                     <i className="fa-solid fa-location-dot"></i>
@@ -81,14 +111,17 @@ const WeatherApp = () => {
                     <i className="fa-solid fa-magnifying-glass" onClick={search}></i>
                 </div>
             </div>
-            <div className="weather">
+            {data.notFound ? (<div className='not-found'>Womp Womp Nigga🍉
+                <img src={errImg} alt="ishowspeed" />
+            </div>) :(<>
+                <div className="weather">
                 <img src={bgImage} alt="sunny" />
                 <div className="weather-type">{data.weather ? data.weather[0].main : null }</div>
                 <div className="temp">{data.main ? `${Math.floor(data.main.temp)}` : null}°C</div>
 
             </div>
             <div className="weather-date">
-                <p>Friday July 12</p>
+                <p>{dateUSee}</p>
             </div>
             <div className="weather-data">
                 <div className="humidity">
@@ -103,6 +136,8 @@ const WeatherApp = () => {
 
                 </div>
             </div>
+            </>)}
+            
         </div>
 
     </div>

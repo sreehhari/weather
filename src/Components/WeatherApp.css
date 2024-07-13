@@ -33,6 +33,24 @@
     row-gap: 1rem;
 }
 
+.not-found{
+    font-size: 3rem;
+    color: #484569;
+    margin-top: 5rem;
+    text-shadow: -0.3rem 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.not-found > img{
+    padding-top: 4.5rem;
+    width: 90%;
+    height: auto;
+    border-radius: 39%;
+}
+
 .search-top{
     display: flex;
     align-items: center;
