@@ -3,6 +3,7 @@ import cloudy from '../assets/images/cloudy.png'
 import rainy from '../assets/images/rainy.png'
 import snowy from '../assets/images/snowy.png'
 import speed from '../assets/images/speed.jpg'
+import loadingGif from '../assets/images/loading.gif'
 import { useState, useEffect } from 'react'
 
 
@@ -11,14 +12,17 @@ const WeatherApp = () => {
 
     const[data,setData]=useState({})
     const[city,setCity]=useState('')
+    const[loading,setLoading]=useState(false)
     const api_key='e3cbfb4d5977e0836d2d9620549fb036'
     useEffect(()=>{
         const defaultWeather=async()=>{
+            setLoading(true)
             const defaultCity='kochi'
             const url =`https://api.openweathermap.org/data/2.5/weather?q=${defaultCity}&units=Metric&appid=${api_key}`
             const res = await fetch(url)
             const defaultData= await res.json()
             setData(defaultData)
+            setLoading(false)
         }
         defaultWeather()
     },[])
@@ -37,6 +41,7 @@ const WeatherApp = () => {
             console.log(searchData)
             setData(searchData)
         }
+        setLoading(false)
         }
     }
 
@@ -111,7 +116,9 @@ const WeatherApp = () => {
                     <i className="fa-solid fa-magnifying-glass" onClick={search}></i>
                 </div>
             </div>
-            {data.notFound ? (<div className='not-found'>Womp Womp Nigga🍉
+            {loading ? (<img className='buffering'src={loadingGif} alt='loading'/>)
+            :
+            data.notFound ? (<div className='not-found'>Womp Womp Nigga🍉
                 <img src={errImg} alt="ishowspeed" />
             </div>) :(<>
                 <div className="weather">
