@@ -1,12 +1,15 @@
-
-import WeatherApp from './Components/WeatherApp'
+import React from 'react';
+// import WeatherApp from './Components/WeatherApp'
 import  "./Components/WeatherApp.css"
-
+import { Outlet } from "react-router"
+// import { ChakraProvider } from '@chakra-ui/react';
 function App() {
 
   return (
     <>
-      <WeatherApp />
+      {/* <ChakraProvider> */}
+      <Outlet />
+      {/* </ChakraProvider> */}
     </>
   )
 }

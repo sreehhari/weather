@@ -2,10 +2,12 @@
     height: 100vh;
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-image: linear-gradient(to right,#f3b07c,#fcd283);
     overflow: hidden;
+    gap: 2vh;
 }
 
 .weather img{
@@ -171,3 +173,4 @@
     width: 5rem;
     margin-top: 10rem;
 }
+

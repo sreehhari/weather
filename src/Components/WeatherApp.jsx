@@ -5,15 +5,20 @@ import snowy from '../assets/images/snowy.png'
 import speed from '../assets/images/speed.jpg'
 import loadingGif from '../assets/images/loading.gif'
 import { useState, useEffect } from 'react'
+import { Button } from '@chakra-ui/react'
+import { useNavigate } from 'react-router'
 
 
 
 const WeatherApp = () => {
-
+    const navigate =useNavigate()
+    const handleButtonClick =()=>{
+        navigate('/contactMe')
+    }
     const[data,setData]=useState({})
     const[city,setCity]=useState('')
     const[loading,setLoading]=useState(false)
-    const api_key='e3cbfb4d5977e0836d2d9620549fb036'
+    const api_key=import.meta.env.VITE_WEATHER_KEY
     useEffect(()=>{
         const defaultWeather=async()=>{
             setLoading(true)
@@ -146,6 +151,22 @@ const WeatherApp = () => {
             </>)}
             
         </div>
+        <Button
+        onClick={handleButtonClick}
+      backgroundColor="transparent"
+      border="2px solid #3182CE" // Blue border
+      color="#3182CE" // Blue text
+      _hover={{
+        backgroundColor: "#3182CE",
+        color: "white",
+      }}
+      _active={{
+        backgroundColor: "#2B6CB0",
+        borderColor: "#2B6CB0",
+      }}
+    >
+      Contact Me
+    </Button>
 
     </div>
   )
